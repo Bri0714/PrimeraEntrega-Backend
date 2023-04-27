@@ -1,18 +1,18 @@
-const CartManager = require('./../helpers/CartManager')
+const CartManager = require('../helpers/CartManager.js')
 
-// Get a cart from server
+// Obtener un carrito desde el servidor
 const getProductsCartFromServer = async (req, res) => {
-    res.send('GET one /carts')
+res.send('GET uno /carts')
 }
 
-// add o creates a cart to the server
+// Añadir o crear un carrito en el servidor
 const addCartOnServer = async (req, res) => {
-    res.send('POST one /carts')
+res.send('POST uno /carts')
 }
 
-// add or update an existing product to an existing cart on the server
+// Añadir o actualizar un producto existente a un carrito existente en el servidor
 const addProductCartOnServer = async (req, res) => {
-    res.send('POST one product on cart /carts')
+res.send('POST un producto en un carrito /carts')
 }
 
 module.exports = {getProductsCartFromServer, addCartOnServer, addProductCartOnServer}

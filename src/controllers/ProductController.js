@@ -1,120 +1,109 @@
-const ProductManager = require('./../helpers/ProductManager')
+
+const ProductManager = require('../helpers/ProductManager.js')
 let info = {}
 
-
-const getAllProductsFromServer = async () => {
-    
-}
-
-const getNProductsFromServer = async () => {
-    
-}
-
-// Get all or N products from server /api/products[?:limit=N]
+// Obtener todos o N productos desde el servidor /api/products[?:limit=N]
 const getProductsFromServer = async (req, res) => {
     let arrayQuery = Object.keys(req.query)
-
-    if(!(arrayQuery.length > 0)){
+    if (!(arrayQuery.length > 0)) {
         const products = new ProductManager()
         const listProducts = await products.getAllProducts()
 
-        if(Array.isArray(listProducts)){
+        if (Array.isArray(listProducts)) {
             const length = listProducts.length
 
-            if(length > 0){
+            if (length > 0) {
                 info = {
-                    status: "success",
+                    status: "éxito",
                     data: listProducts,
                     length: length,
-                    message: "products returned successfully"
+                    message: "productos devueltos con éxito"
                 }
                 return res.status(400).json(info)
             }
 
-            info ={
+            info = {
                 status: "error",
                 data: [],
                 length: 0,
-                message: "no products"
+                message: "no hay productos"
             }
             return res.status(400).json(info)
         }
     }
 
-    if(arrayQuery.length > 0){
-        if(!arrayQuery.includes('limit') || arrayQuery.length > 1 ){
-            info = { 
+    if (arrayQuery.length > 0) {
+        if (!arrayQuery.includes('limit') || arrayQuery.length > 1) {
+            info = {
                 status: "error",
-                message: "query with syntax error",
+                message: "consulta con error de sintaxis",
                 data: [],
                 length: 0
             }
             return res.status(400).json(info)
         }
 
-        let {limit} = req.query
+        let { limit } = req.query
         limit = parseInt(limit)
 
-        if(!isNaN(limit) && limit > 0){
+        if (!isNaN(limit) && limit > 0) {
             const products = new ProductManager()
-            
+
             const listProducts = await products.getProducts(limit)
 
-            if(Array.isArray(listProducts)){
+            if (Array.isArray(listProducts)) {
                 const length = listProducts.length
 
-                if(length > 0){
+                if (length > 0) {
                     info = {
-                        status: length === limit ? "success" : "partial",
+                        status: length === limit ? "éxito" : "parcial",
                         data: listProducts,
                         length: length,
-                        message: length === limit? "products returned successfully" : "Not all the requested products were available."
+                        message: length === limit ? "productos devueltos con éxito" : "No estaban disponibles todos los productos solicitados."
                     }
                     return res.status(400).json(info)
                 }
 
-                info ={
+                info = {
                     status: "error",
                     data: [],
                     length: 0,
-                    message: "no products"
+                    message: "no hay productos"
                 }
                 return res.status(400).json(info)
             }
 
-            info = { 
+            info = {
                 status: "error",
                 data: [],
                 length: 0,
-                message: "the argument of limit is not a positive integer",
-                
+                message: "el argumento de límite no es un entero positivo",
+
             }
             return res.status(200).json(info)
         }
     }
 
-    
-
 }
 
-// Get a product from server /api/products/:pid 
+// Obtener un producto desde el servidor /api/products/:pid
 const getProductFromServer = async (req, res) => {
-    res.send('GET one of /products')
+    res.send('GET uno de /productos')
 }
 
-// Add a product to the server
+// Agregar un producto al servidor
 const addProductOnServer = async (req, res) => {
-    res.send('POST one of /products')
+    res.send('POST uno de /productos')
 }
 
-// Update a product to the server
+// Actualizar un producto en el servidor
 const updProductOnServer = async (req, res) => {
-    res.send('PUT one of /products')
+    res.send('PUT uno de /productos')
 }
 
-// Delete a product to the server
+// Eliminar un producto del servidor
 const delProductOnServer = async (req, res) => {
-    res.send('PUT one of /products')
+    res.send('PUT uno de /productos')
 }
 
-module.exports = {getProductsFromServer, getProductFromServer, addProductOnServer, updProductOnServer, delProductOnServer}
+module.exports = { getProductsFromServer, getProductFromServer, addProductOnServer, updProductOnServer, delProductOnServer }

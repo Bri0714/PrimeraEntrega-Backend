@@ -3,40 +3,42 @@ class ListCart {
 		this.list = []
 	}
 
-	/* Method that returns the length of the list of shopping carts. */
+	/* Método que devuelve la longitud de la lista de carritos de compras. */
 	getLength = () => this.list.length
 
-	/* Method that creates a unique, auto-incrementing id. */
+	/* Método que crea un id único autoincremental. */
 	createId = () => this.getLength() ? this.list[this.getLength() - 1].id + 1 : 1
 
-	/* Method that initializes the list of shopping carts */
+	/* Método que inicializa la lista de carritos de compras. */
 	setList = contFile => this.list = JSON.parse(contFile)
 
-	/* Method that returns the complete list of shopping carts */
+	/* Método que devuelve la lista completa de carritos de compras. */
 	getList = () => this.list
 
-	/* Method that returns the index of an item or shopping cart, uses the id 
-	or shopping cart property to search for it, if not found it returns -1. */
+	/* Método que devuelve el índice de un elemento o carrito de compras, 
+	utiliza el id o la propiedad del carrito de compras para buscarlo, 
+	si no se encuentra, devuelve -1. */
 	getIndexElementById = id => this.list.findIndex(ele => ele.id === id)
 
-	/* Method that returns the index of a child element or product, uses the 
-	id property of the product to search for it, in case it is not found it 
-	returns -1. */
+	/* Método que devuelve el índice de un elemento hijo o producto, 
+	utiliza la propiedad id del producto para buscarlo, en caso de no 
+	encontrarlo, devuelve -1. */
 	getIndexChildElementById = (indexParent, idChild) => this.list[indexParent].products.findIndex(child => child.product === idChild)
 
-	/* Method that creates a new cart with a unique id and an empty array of 
-	products. */
+	/* Método que crea un nuevo carrito con un id único y un array vacío 
+	de productos. */
 	addElement = () => this.list.push({ id: this.createId(), products: [] })
 
-	/* Method that returns an item or shopping cart, uses the id property of 
-	the shopping cart to search for it, if it doesn't find it, it returns 
-	undefined. */
+	/* Método que devuelve un elemento o carrito de compras, utiliza la 
+	propiedad id del carrito de compras para buscarlo, si no lo encuentra, 
+	devuelve indefinido. */
 	getElementById = id => this.list.find(ele => ele.id === id)
 
-	/* Method that adds a child element or product to the shopping cart, 
-	uses the shopping cart id and the product id to find the cart and add 
-	or increment the number of products, returns true if it could be added 
-	and false if it did not find the product in the shopping cart. */
+	/* Método que agrega un elemento hijo o producto al carrito de compras, 
+	utiliza el id del carrito de compras y el id del producto para buscar 
+	el carrito y agregar o incrementar la cantidad de productos, devuelve 
+	true si pudo agregarse y false si no encontró el producto en el carrito 
+	de compras. */
 	addElementByIds = (idParent, idChild) => {
 		const indexParent = this.getIndexElementById(idParent)
 		if (indexParent < 0) {

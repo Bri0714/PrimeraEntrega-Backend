@@ -1,14 +1,13 @@
 const fs = require('fs')
-const ListCarts = require('./ListCarts')
+const ListCarts = require('./ListCarts.js')
 
 class CartManager {
     constructor(path) {
         this.path = path
     }
-
-    /* Method that gets the content of the shopping carts file returns the following.
-        String - With content of the file.
-        False – If the file is not found, or if the file exists, but is empty. */
+    /* Método que obtiene el contenido del archivo de carritos de compras y devuelve lo siguiente:
+        String - con el contenido del archivo.
+        False - si no se encuentra el archivo, o si el archivo existe pero está vacío. */
     getContentFile = async () => {
         let content = ""
         try {
@@ -24,9 +23,9 @@ class CartManager {
         return content
     }
 
-    /* Method that writes the content of the shopping cart file, returns the following.
-        True – Whether the file was successfully written to.
-        False – If there was a problem writing to the file. */
+    /* Método que escribe el contenido del archivo de carritos de compras y devuelve lo siguiente:
+        True - si se escribió correctamente en el archivo.
+        False - si hubo un problema al escribir en el archivo. */
     setContentFile = async content => {
         try {
             await fs.promises.writeFile(this.path, JSON.stringify(content, null, 4))
@@ -36,11 +35,11 @@ class CartManager {
         return true
     }
 
-    /* Method that gets a shopping cart from the file, receives the id of the requested 
-    shopping cart as a parameter, returns the following.
-        An Object – If it finds the requested shopping cart.
-        Undefined – If the requested shopping cart is not found.
-        False – If the file is not found, or if the file exists, but is empty. */
+    /* Método que obtiene un carrito de compras del archivo, recibe como parámetro el id del 
+    carrito de compras solicitado y devuelve lo siguiente:
+        Un objeto - si encuentra el carrito de compras solicitado.
+        Undefined - si no se encuentra el carrito de compras solicitado.
+        False - si no se encuentra el archivo, o si el archivo existe pero está vacío. */
     getCartById = async idCart => {
         const content = await this.getContentFile()
 
@@ -54,9 +53,9 @@ class CartManager {
         return carts.getElementById(idCart)
     }
 
-    /* Method that creates a new shopping cart, returns the following.
-        True – Whether the cart could be created successfully.
-        False – If there was a problem creating or registering the shopping cart. */
+    /* Método que crea un nuevo carrito de compras y devuelve lo siguiente:
+        True - si el carrito de compras pudo crearse correctamente.
+        False - si hubo un problema al crear o registrar el carrito de compras. */
     addCart = async () => {
         const content = await this.getContentFile()
         const carts = new ListCarts()
@@ -72,11 +71,11 @@ class CartManager {
         return false
     }
 
-    /* Method that adds or updates a product to the existing shopping cart, receives the 
-    id of the shopping cart and the id of the product to add as parameters, returns the following.
-        True – Whether the product could be successfully added or updated.
-        False – If the file is not found, or if the file exists, but is empty. If the shopping 
-            cart was not found to add the product. */
+    /* Método que agrega o actualiza un producto en un carrito de compras existente, recibe como 
+    parámetros el id del carrito de compras y el id del producto a agregar, y devuelve lo siguiente:
+        True - si el producto pudo agregarse o actualizarse correctamente.
+        False - si no se encuentra el archivo, o si el archivo existe pero está vacío. Si no se 
+            encontró el carrito de compras para agregar el producto. */
     addProductToCart = async (idCart, idProduct) => {
         const content = await this.getContentFile()
 

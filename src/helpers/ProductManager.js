@@ -1,5 +1,5 @@
 const fs = require('fs')
-const ListProducts = require('./ListProducts')
+const ListProducts = require('./ListProducts.js')
 
 class ProductManager {
     constructor(path) {

@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "name": "Nuevo producto",
+    "description": "Descripción del nuevo producto",
+    "price": 99.99,
+    "image": "https://via.placeholder.com/150"
+  }
+]

@@ -1,17 +1,15 @@
-const express = require('express')
-const productRouter = require('../src/router/products.router.js')
-const cartRouter = require('../src/router/carts.router.js')
-const server = express()
+const express = require('express');
+const productsRoutes = require('./routes/products.routes.js');
+const cartsRouter = require('./routes/carts.routes.js');
 
-const port = 8080
+const app = express();
 
-server.listen(port, () => console.log(` el servidor se levanto en http://localhost:${port}`))
+app.use(express.json());
 
-server.use(express.json())
+app.use('/api/products', productsRoutes);
+app.use('/api/carts', cartsRouter);
 
-const bodyParser = require('body-parser');
-
-server.use(bodyParser.urlencoded({ extended: true }));
-
-server.use('/api/products', productRouter)
-server.use('/api/carts', cartRouter)
+const PORT = 8080;
+app.listen(PORT, () => {
+    console.log(`Server running on port http://localhost:${PORT}`);
+});

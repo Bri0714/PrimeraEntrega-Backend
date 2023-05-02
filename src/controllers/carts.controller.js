@@ -3,7 +3,7 @@ const productsModel = require('../models/products.model.js');
 
 const cartsController = {
     createCart: (req, res) => {
-        const cart = cartsModel.createCart();
+        const cart = cartsModel.addCart(req.body);
         res.json(cart);
     },
 
@@ -13,10 +13,9 @@ const cartsController = {
         if (cart) {
             const products = [];
             cart.products.forEach((product) => {
-                const { id, quantity } = product;
-                const fullProduct = productsModel.getProductById(id);
+                const fullProduct = productsModel.getProductById(product.id);
                 if (fullProduct) {
-                    products.push({ ...fullProduct, quantity });
+                    products.push({ ...fullProduct, quantity: product.quantity });
                 }
             });
             res.json(products);
@@ -41,6 +40,29 @@ const cartsController = {
             existingProduct.quantity += quantity;
         } else {
             cart.products.push({ id: pid, quantity });
+        }
+        cartsModel.updateCart(cid, cart);
+        res.json(cart);
+    },
+
+    removeProductFromCart: (req, res) => {
+        const { cid, pid } = req.params;
+        const quantity = parseInt(req.body.quantity);
+        const cart = cartsModel.getCartById(cid);
+        if (!cart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
+        const existingProductIndex = cart.products.findIndex(
+            (product) => product.id === pid
+        );
+        if (existingProductIndex === -1) {
+            return res.status(404).json({ error: 'Product not found in cart' });
+        }
+        const existingProduct = cart.products[existingProductIndex];
+        if (existingProduct.quantity <= quantity) {
+            cart.products.splice(existingProductIndex, 1);
+        } else {
+            existingProduct.quantity -= quantity;
         }
         cartsModel.updateCart(cid, cart);
         res.json(cart);
